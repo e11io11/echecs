@@ -143,6 +143,7 @@ public class Partie{
     13 -> grand roque
     14 -> petit roque
     */
+
     int typeMouvement = pieceDepart.typeMouvement(xPiece, yPiece, xDestination, yDestination);
     int avant = pieceDepart.getAvant();
 
@@ -228,7 +229,7 @@ public class Partie{
       }
     }
 
-    else if (mouvement == 13){
+    else if (typeMouvement == 13){
       //if (!grandRoquePossible())
         return false;
     }
