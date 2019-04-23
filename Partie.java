@@ -229,12 +229,12 @@ public class Partie{
     }
 
     else if (mouvement == 13){
-      if (!grandRoquePossible())
+      //if (!grandRoquePossible())
         return false;
     }
 
     else{
-      if (!petitRoquePossible())
+      //if (!petitRoquePossible())
         return false;
     }
 
