@@ -1,12 +1,23 @@
 public abstract class Piece{
   public boolean couleur;
+  public boolean aEffectueUnMouvement;
 
   public Piece(boolean c){
     this.couleur = c;
+    this.aEffectueUnMouvement = false;
   }
 
   public Piece(Piece p){
     this.couleur = p.getCouleur();
+    this.aEffectueUnMouvement = p.aEffectueUnMouvement;
+  }
+
+  public boolean getAEffectueUnMouvement() {
+    return this.aEffectueUnMouvement;
+  }
+
+  public void effectueUnMouvement() {
+    this.aEffectueUnMouvement = true;
   }
 
   public boolean getCouleur(){

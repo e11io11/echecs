@@ -1,22 +1,11 @@
 public class Pion extends Piece{
-  private boolean aEffectueUnMouvement;
 
   public Pion(boolean c){
     super(c);
-    this.aEffectueUnMouvement = false;
   }
 
   public Pion(Pion p){
     super(p);
-    this.aEffectueUnMouvement = p.getAEffectueUnMouvement();
-  }
-
-  public boolean getAEffectueUnMouvement(){
-    return this.aEffectueUnMouvement;
-  }
-
-  public void effectueUnMouvement(){
-    this.aEffectueUnMouvement = true;
   }
 
   public String toString(){

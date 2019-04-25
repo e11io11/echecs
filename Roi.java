@@ -1,21 +1,11 @@
 public class Roi extends Piece{
-  private boolean aEffectueUnMouvement;
 
   public Roi(boolean c){
     super(c);
-    this.aEffectueUnMouvement = false;
   }
 
   public Roi(Roi r){
     super(r);
-  }
-
-  public boolean getAEffectueUnMouvement(){
-    return this.aEffectueUnMouvement;
-  }
-
-  public void effectueUnMouvement(){
-    this.aEffectueUnMouvement = true;
   }
 
   public String toString(){

@@ -1,5 +1,4 @@
 public class Tour extends Piece{
-  private boolean aEffectueUnMouvement;
 
   public Tour(boolean c){
     super(c);
@@ -7,17 +6,7 @@ public class Tour extends Piece{
 
   public Tour(Tour t){
     super(t);
-    this.aEffectueUnMouvement = false;
   }
-
-  public boolean getAEffectueUnMouvement(){
-    return this.aEffectueUnMouvement;
-  }
-
-  public void effectueUnMouvement(){
-    this.aEffectueUnMouvement = true;
-  }
-
 
   public String toString(){
     return "2";
