@@ -17,11 +17,11 @@ public class Pion extends Piece{
     if (xDestination == xPiece && yDestination - yPiece == avant)
       //mouvement en avant qui requiert qu'il n'y ai pas d'ennemi sur la case de destination
       return 2;
-    else if (xDestination == xPiece && yDestination - yPiece == 2*avant)
+    else if ((xDestination == xPiece && yDestination - yPiece == 2*avant) && !this.aEffectueUnMouvement)
       //mouvement qui requiert que le pion n'ai pas deja effectué un mouvement et qu'il n'y ai pas d'enemi sur le chemin
       return 3;
     else if ((xDestination - xPiece == -1 && yDestination - yPiece == avant) || (xDestination - xPiece == 1 && yDestination - yPiece == avant))
-      //mouvement qui requiert qu'il y ai une piece ennemi en haut à gauche
+      //mouvement qui requiert qu'il y ai une piece ennemi sur la case d'arrivée
       return 4;
     else
       return 0;

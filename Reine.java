@@ -56,6 +56,7 @@ public class Reine extends Piece{
         //mouvement en diagonale haut gauche + check chemin
         return 5;
       else
+        // mouvement qui ne requiert pas de check les pieces sur le chemin (mouvement d'un seule case)
         return 1;
     }
 

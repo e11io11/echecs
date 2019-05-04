@@ -11,6 +11,7 @@ public class Partie{
     this.historique = "";
   }
 
+
   public Partie(Partie p){
     this.plateau = new Piece[64];
     Piece[] pPlateau = p.getPlateau();
@@ -35,11 +36,13 @@ public class Partie{
     this.historique = p.getHistorique();
   }
 
+
   public Partie(Piece[] plateau){
     this.plateau = plateau;
     this.joueur = true;
     this.historique = "";
   }
+
 
   private void initPlateau(){
     //1ere rangée noir
@@ -71,25 +74,31 @@ public class Partie{
     this.plateau[63] = new Tour(true);
   }
 
+
   public Piece[] getPlateau(){
     return this.plateau;
   }
+
 
   public boolean getJoueur(){
     return this.joueur;
   }
 
+
   public String getHistorique(){
     return this.historique;
   }
+
 
   public void setJoueur(boolean j){
     this.joueur = j;
   }
 
+
   public void nextJoueur(){
     this.joueur = !this.joueur;
   }
+
 
   public boolean deplacementPossible(int xPiece, int yPiece, int xDestination, int yDestination, boolean joueur){
     //verifie qu'il y a bel et bien un déplacement
@@ -165,7 +174,7 @@ public class Partie{
     }
 
     else if (typeMouvement == 3){
-      if (((Pion)pieceDepart).getAEffectueUnMouvement() || pieceArrivee != null || this.plateau[xPiece + 8*(yPiece+avant)] != null)
+      if (pieceDepart.getAEffectueUnMouvement() || pieceArrivee != null || this.plateau[xPiece + 8*(yPiece+avant)] != null)
         return false;
     }
 
@@ -230,8 +239,7 @@ public class Partie{
     }
 
     else if (typeMouvement == 13){
-      //if (!grandRoquePossible())
-        return false;
+      return false;
     }
 
     else{
@@ -242,6 +250,80 @@ public class Partie{
     return true;
   }
 
+
+  public boolean grandRoquePossible(){
+    int xRoi = 4;
+    int yRoi;
+    int xTour = 0;
+    int yTour;
+
+
+    if (this.joueur){
+      yRoi = 7;
+      yTour = 7;
+    }
+    else{
+      yRoi = 0;
+      yTour = 7;
+    }
+
+    Piece caseRoi = this.plateau[xRoi + yRoi*8];
+    Piece caseTour = this.plateau[xTour + yTour*8];
+
+    if (caseRoi == null || caseRoi.getClass() != Roi.class || caseRoi.getCouleur() != this.getJoueur() || caseRoi.getAEffectueUnMouvement())
+      return false;
+    
+    else if (caseTour == null || caseTour.getClass() != Tour.class || caseTour.getCouleur() != this.getJoueur() || caseTour.getAEffectueUnMouvement())
+      return false;
+
+    else if (this.plateau[xRoi-1 + yRoi*8] != null || this.plateau[xRoi-2 + yRoi*8] != null || this.plateau[xRoi-3 + yRoi*8] != null)
+      return false;
+
+    else if (enEchec() || enEchecApresMouvemement(xRoi, yRoi, xRoi-1, yRoi) || enEchecApresMouvemement(xRoi, yRoi, xRoi-2, yRoi))
+      return false;
+
+    else
+      return true;
+  }
+
+
+
+  public boolean petitRoquePossible() {
+    int xRoi = 4;
+    int yRoi;
+    int xTour = 7;
+    int yTour;
+
+    if (this.joueur) {
+      yRoi = 7;
+      yTour = 7;
+    } 
+    else{
+      yRoi = 0;
+      yTour = 7;
+    }
+
+    Piece caseRoi = this.plateau[xRoi + yRoi*8];
+    Piece caseTour = this.plateau[xTour + yTour*8];
+
+    if (caseRoi == null || caseRoi.getClass() != Roi.class || caseRoi.getCouleur() != this.getJoueur() || caseRoi.getAEffectueUnMouvement())
+      return false;
+
+    else if (caseTour == null || caseTour.getClass() != Tour.class || caseTour.getCouleur() != this.getJoueur() || caseTour.getAEffectueUnMouvement())
+      return false;
+
+    else if (this.plateau[xRoi+1 + yRoi*8] != null || this.plateau[xRoi+2 + yRoi*8] != null || this.plateau[xRoi+3 + yRoi*8] != null)
+      return false;
+
+    else if (enEchec() || enEchecApresMouvemement(xRoi, yRoi, xRoi+1, yRoi) || enEchecApresMouvemement(xRoi, yRoi, xRoi+2, yRoi))
+      return false;
+
+    else
+      return true;
+  }
+
+
+  
   public boolean deplacerPiece(int xPiece, int yPiece, int xDestination, int yDestination){
     if (!this.deplacementPossible(xPiece, yPiece, xDestination, yDestination, this.joueur) || this.enEchecApresMouvemement(xPiece, yPiece, xDestination, yDestination))
       return false;
@@ -249,10 +331,8 @@ public class Partie{
     Piece pieceDepart = this.plateau[xPiece + 8*yPiece];
     Piece pieceArrivee = this.plateau[xDestination + 8*yDestination];
 
-    //on prend en compte qu'un pion a effectué un mouvement pour eviter qu'il puisse refaire un mouvement de deux cases
-    if (pieceDepart.getClass() == Pion.class){
-      ((Pion)pieceDepart).effectueUnMouvement();
-    }
+    //on prend en compte le mouvement
+    pieceDepart.effectueUnMouvement();
 
     //enregistrement du coup dans l'historique
     this.historique += "{"+pieceDepart+","+xPiece+","+yPiece+","+pieceArrivee+","+xDestination+","+yDestination+","+this.joueur+"}";
@@ -291,6 +371,7 @@ public class Partie{
     return false;
   }
 
+
   public boolean enEchecApresMouvemement(int xPiece, int yPiece, int xDestination, int yDestination){
     //on cree une copie de la partie
     Partie copiePartie = new Partie(this);
@@ -301,6 +382,24 @@ public class Partie{
     //on regarde si le move met le joueur en echec
     return copiePartie.enEchec();
   }
+  
+
+  public boolean echecEtMat() {
+    if (enEchec()) {
+      for (int i = 0; i < 64; i++) {
+        if (this.plateau[i] != null && this.plateau[i].getCouleur() == this.joueur) {
+          for (int j = 0; j < 64; j++) {
+            if (this.deplacementPossible(i % 8, i / 8, j % 8, j / 8, this.joueur)
+                && !this.enEchecApresMouvemement(i % 8, i / 8, j % 8, j / 8))
+              return false;
+          }
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
 
   public void afficherPlateau(){
     for(int i=0; i<8; i++){
@@ -313,21 +412,6 @@ public class Partie{
       }
       System.out.println(row);
     }
-  }
-
-  public boolean echecEtMat(){
-    if (enEchec()){
-      for(int i=0; i<64; i++){
-        if (this.plateau[i] != null && this.plateau[i].getCouleur() == this.joueur){
-          for(int j=0; j<64; j++){
-            if (this.deplacementPossible(i%8, i/8, j%8, j/8, this.joueur) && !this.enEchecApresMouvemement(i%8, i/8, j%8, j/8))
-              return false;
-          }
-        }
-      }
-      return true;
-    }
-    return false;
   }
 
 
