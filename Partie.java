@@ -239,11 +239,12 @@ public class Partie{
     }
 
     else if (typeMouvement == 13){
-      return false;
+      if (!grandRoquePossible())
+        return false;
     }
 
     else{
-      //if (!petitRoquePossible())
+      if (!petitRoquePossible())
         return false;
     }
 
@@ -272,7 +273,7 @@ public class Partie{
 
     if (caseRoi == null || caseRoi.getClass() != Roi.class || caseRoi.getCouleur() != this.getJoueur() || caseRoi.getAEffectueUnMouvement())
       return false;
-    
+
     else if (caseTour == null || caseTour.getClass() != Tour.class || caseTour.getCouleur() != this.getJoueur() || caseTour.getAEffectueUnMouvement())
       return false;
 
@@ -297,33 +298,79 @@ public class Partie{
     if (this.joueur) {
       yRoi = 7;
       yTour = 7;
-    } 
+    }
     else{
       yRoi = 0;
-      yTour = 7;
+      yTour = 0;
     }
 
     Piece caseRoi = this.plateau[xRoi + yRoi*8];
     Piece caseTour = this.plateau[xTour + yTour*8];
 
-    if (caseRoi == null || caseRoi.getClass() != Roi.class || caseRoi.getCouleur() != this.getJoueur() || caseRoi.getAEffectueUnMouvement())
+    if (caseRoi == null || caseRoi.getClass() != Roi.class || caseRoi.getCouleur() != this.getJoueur() || caseRoi.getAEffectueUnMouvement()){
+      //System.out.println("1");
       return false;
+    }
 
-    else if (caseTour == null || caseTour.getClass() != Tour.class || caseTour.getCouleur() != this.getJoueur() || caseTour.getAEffectueUnMouvement())
+    else if (caseTour == null || caseTour.getClass() != Tour.class || caseTour.getCouleur() != this.getJoueur() || caseTour.getAEffectueUnMouvement()){
+      //System.out.println("2");
       return false;
+    }
 
-    else if (this.plateau[xRoi+1 + yRoi*8] != null || this.plateau[xRoi+2 + yRoi*8] != null || this.plateau[xRoi+3 + yRoi*8] != null)
+    else if (this.plateau[xRoi+1 + yRoi*8] != null || this.plateau[xRoi+2 + yRoi*8] != null){
+      //System.out.println("3");
       return false;
+    }
 
-    else if (enEchec() || enEchecApresMouvemement(xRoi, yRoi, xRoi+1, yRoi) || enEchecApresMouvemement(xRoi, yRoi, xRoi+2, yRoi))
+    else if (enEchec() || enEchecApresMouvemement(xRoi, yRoi, xRoi+1, yRoi) || enEchecApresMouvemement(xRoi, yRoi, xRoi+2, yRoi)){
+      //System.out.println("4");
       return false;
+    }
 
     else
       return true;
   }
 
 
-  
+
+  public void grandRoque(){
+    int y;
+    if (this.joueur) {
+      y = 7;
+    }
+    else{
+      y = 0;
+    }
+
+    Piece roi = this.plateau[4+y*8];
+    Piece tour = this.plateau[0+y*8];
+    this.plateau[4+y*8] = null;
+    this.plateau[0+y*8] = null;
+    this.plateau[2+y*8] = roi;
+    this.plateau[3+y*8] = tour;
+  }
+
+
+
+  public void petitRoque(){
+    int y;
+    if (this.joueur) {
+      y = 7;
+    }
+    else{
+      y = 0;
+    }
+
+    Piece roi = this.plateau[4+y*8];
+    Piece tour = this.plateau[0+y*8];
+    this.plateau[4+y*8] = null;
+    this.plateau[7+y*8] = null;
+    this.plateau[6+y*8] = roi;
+    this.plateau[5+y*8] = tour;
+  }
+
+
+
   public boolean deplacerPiece(int xPiece, int yPiece, int xDestination, int yDestination){
     if (!this.deplacementPossible(xPiece, yPiece, xDestination, yDestination, this.joueur) || this.enEchecApresMouvemement(xPiece, yPiece, xDestination, yDestination))
       return false;
@@ -382,7 +429,7 @@ public class Partie{
     //on regarde si le move met le joueur en echec
     return copiePartie.enEchec();
   }
-  
+
 
   public boolean echecEtMat() {
     if (enEchec()) {
@@ -418,5 +465,5 @@ public class Partie{
   public void jouer(){
   }
 
-  
+
 }
