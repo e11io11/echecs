@@ -4,6 +4,7 @@ public class Partie{
   private Piece[] plateau;
   private boolean joueur;
   private ArrayList<String> historique;
+  private int nbrMouvement;
 
 
   public Partie(){
@@ -11,6 +12,7 @@ public class Partie{
     this.initPlateau();
     this.joueur = true;
     this.historique = new ArrayList<String>();
+    this.nbrMouvement = 0;
   }
 
 
@@ -36,6 +38,7 @@ public class Partie{
     }
     this.joueur = p.getJoueur();
     this.historique = p.getHistorique();
+    this.nbrMouvement = p.getNbrMouvement();
   }
 
 
@@ -43,6 +46,7 @@ public class Partie{
     this.plateau = plateau;
     this.joueur = true;
     this.historique = new ArrayList<String>();
+    this.nbrMouvement = 0;
   }
 
 
@@ -99,6 +103,10 @@ public class Partie{
 
   public void nextJoueur(){
     this.joueur = !this.joueur;
+  }
+
+  public int getNbrMouvement(){
+    return this.nbrMouvement;
   }
 
 
