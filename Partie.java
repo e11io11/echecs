@@ -1,14 +1,16 @@
+import java.util.ArrayList;
+
 public class Partie{
   private Piece[] plateau;
   private boolean joueur;
-  private String historique;
+  private ArrayList<String> historique;
 
 
   public Partie(){
     this.plateau = new Piece[64];
     this.initPlateau();
     this.joueur = true;
-    this.historique = "";
+    this.historique = new ArrayList<String>();
   }
 
 
@@ -40,7 +42,7 @@ public class Partie{
   public Partie(Piece[] plateau){
     this.plateau = plateau;
     this.joueur = true;
-    this.historique = "";
+    this.historique = new ArrayList<String>();
   }
 
 
@@ -85,7 +87,7 @@ public class Partie{
   }
 
 
-  public String getHistorique(){
+  public ArrayList<String> getHistorique(){
     return this.historique;
   }
 
@@ -382,7 +384,7 @@ public class Partie{
     pieceDepart.effectueUnMouvement();
 
     //enregistrement du coup dans l'historique
-    this.historique += "{"+pieceDepart+","+xPiece+","+yPiece+","+pieceArrivee+","+xDestination+","+yDestination+","+this.joueur+"}";
+    this.historique.add(pieceDepart+","+xPiece+","+yPiece+","+pieceArrivee+","+xDestination+","+yDestination+","+this.joueur);
 
     //le mouvement est effectué
     this.plateau[xPiece + 8*yPiece] = null;
