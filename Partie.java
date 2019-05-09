@@ -395,8 +395,14 @@ public class Partie{
     this.historique.add(pieceDepart+","+xPiece+","+yPiece+","+pieceArrivee+","+xDestination+","+yDestination+","+this.joueur);
 
     //le mouvement est effectué
-    this.plateau[xPiece + 8*yPiece] = null;
-    this.plateau[xDestination + 8*yDestination] = pieceDepart;
+    if (pieceDepart.typeMouvement(xPiece, yPiece, xDestination, yDestination) == 13)
+      this.grandRoque();
+    else if (pieceDepart.typeMouvement(xPiece, yPiece, xDestination, yDestination) == 14)
+      this.petitRoque();
+    else{
+      this.plateau[xPiece + 8*yPiece] = null;
+      this.plateau[xDestination + 8*yDestination] = pieceDepart;
+    }
 
     return true;
   }
