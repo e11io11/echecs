@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public abstract class Piece{
   public boolean couleur;
   public boolean aEffectueUnMouvement;
@@ -33,6 +35,13 @@ public abstract class Piece{
       return -1;
     else
       return 1;
+  }
+
+  public void afficher(Graphics g, int x, int y){
+    Graphics2D g2 = (Graphics2D) g;
+
+   Image img1 = Toolkit.getDefaultToolkit().getImage("img/BlackQueen.png");
+   g2.drawImage(img1, x, y, null);
   }
 
   public abstract int typeMouvement(int xPiece, int yPiece, int xDestination, int yDestination);

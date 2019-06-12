@@ -6,6 +6,7 @@ public class Partie{
   private boolean joueur;
   private ArrayList<String> historique;
   private int nbrMouvement;
+  private Plateau affichage;
 
 
   public Partie(){
@@ -14,6 +15,7 @@ public class Partie{
     this.joueur = true;
     this.historique = new ArrayList<String>();
     this.nbrMouvement = 0;
+    Plateau p = new Plateau(this.plateau);
   }
 
 
@@ -399,7 +401,7 @@ public class Partie{
 
     else if (pieceDepart.typeMouvement(xPiece, yPiece, xDestination, yDestination) == 14)
       this.petitRoque();
-      
+
     else{
       this.plateau[xPiece + 8*yPiece] = null;
       this.plateau[xDestination + 8*yDestination] = pieceDepart;
@@ -490,7 +492,7 @@ public class Partie{
           return i;
       }
     }
-    
+
     else{
       for (int i=0; i<8; i++){
         if (this.plateau[i] != null && !this.plateau[i].getCouleur() && this.plateau[i].getClass() == Pion.class)
@@ -521,10 +523,10 @@ public class Partie{
     if (piece.equals("reine"))
       this.plateau[position] = new Reine(this.joueur);
 
-    else if (piece.equals("fou")) 
+    else if (piece.equals("fou"))
       this.plateau[position] = new Fou(this.joueur);
 
-    else if (piece.equals("tour")) 
+    else if (piece.equals("tour"))
       this.plateau[position] = new Tour(this.joueur);
 
     else
@@ -550,7 +552,7 @@ public class Partie{
 
 
   public void afficherPlateau2(boolean joueur){
-    
+
   }
 
 
@@ -565,13 +567,13 @@ public class Partie{
     else if (action.equals("abandonner") || action.equals("a"))
       return 3;
 
-    else if (action.length() == 5 
+    else if (action.length() == 5
     && action.charAt(0) >= 'a' && action.charAt(0) <= 'h'
     && action.charAt(1) >= '1' && action.charAt(1) <= '8'
     && action.charAt(2) == ' '
     && action.charAt(3) >= 'a' && action.charAt(3) <= 'h'
     && action.charAt(4) >= '1' && action.charAt(4) <= '8'
-    && this.deplacementPossible(action.charAt(0) - 97, 7-(action.charAt(1)-49), action.charAt(3)-97, 7-(action.charAt(4)-49), this.joueur) 
+    && this.deplacementPossible(action.charAt(0) - 97, 7-(action.charAt(1)-49), action.charAt(3)-97, 7-(action.charAt(4)-49), this.joueur)
     && !this.enEchecApresMouvemement(action.charAt(0)-97, 7-(action.charAt(1)-49), action.charAt(3)-97, 7-(action.charAt(4)-49)))
         return 4;
 
@@ -580,7 +582,7 @@ public class Partie{
 
     else if ((action.equals("petit roque") || action.equals("pr")) && petitRoquePossible())
       return 6;
-    
+
     else
       return 0;
   }
@@ -716,7 +718,7 @@ public class Partie{
       System.out.println("Entrez \"menu\" pour revenir au menu");
       action = scan.nextLine().toLowerCase();
     }
-    
+
   }
 
 
