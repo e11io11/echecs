@@ -41,6 +41,7 @@ public class Fou extends Piece{
     return 0;
   }
 
+
   public Image getImage(){
     if (this.couleur)
       return Toolkit.getDefaultToolkit().getImage("img/WhiteBishop.png");

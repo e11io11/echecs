@@ -14,9 +14,9 @@ public class Partie{
     this.initPlateau();
     this.joueur = true;
     this.historique = new ArrayList<String>();
-    this.nbrMouvement = 0;
-    Plateau p = new Plateau(this.plateau, this.joueur);
-    this.affichage = p;
+    this.nbrMouvement = 1;
+    Plateau affichage = new Plateau(this.plateau, this.joueur);
+    this.affichage = affichage;
   }
 
 
@@ -50,7 +50,9 @@ public class Partie{
     this.plateau = plateau;
     this.joueur = true;
     this.historique = new ArrayList<String>();
-    this.nbrMouvement = 0;
+    this.nbrMouvement = 1;
+    Plateau affichage = new Plateau(this.plateau, this.joueur);
+    this.affichage = affichage;
   }
 
 
@@ -265,6 +267,22 @@ public class Partie{
     return true;
   }
 
+  public void ajouterHistorique(int xPiece, int yPiece, int xDestination, int yDestination){
+    if (joueur)
+      this.historique.add(Integer.toString(nbrMouvement)+". "+Integer.toString(xPiece+1)+Integer.toString(yPiece+1)+Integer.toString(xDestination+1)+Integer.toString(yDestination+1));
+    else{
+      String s = this.historique.get(this.historique.size()-1);
+      this.historique.set(this.historique.size()-1, s + " "+Integer.toString(xPiece+1)+Integer.toString(yPiece+1)+Integer.toString(xDestination+1)+Integer.toString(yDestination+1));
+    }
+
+  }
+
+  public void afficherHistorique(){
+    for (String s : this.historique)
+      System.out.println(s);
+    System.out.println("\n");
+  }
+
 
   public boolean grandRoquePossible(){
     int xRoi = 4;
@@ -279,7 +297,7 @@ public class Partie{
     }
     else{
       yRoi = 0;
-      yTour = 7;
+      yTour = 0;
     }
 
     Piece caseRoi = this.plateau[xRoi + yRoi*8];
@@ -394,7 +412,7 @@ public class Partie{
     pieceDepart.effectueUnMouvement();
 
     //enregistrement du coup dans l'historique
-    this.historique.add(pieceDepart+","+xPiece+","+yPiece+","+pieceArrivee+","+xDestination+","+yDestination+","+this.joueur);
+    this.ajouterHistorique(xPiece, yPiece, xDestination, yDestination);
 
     //le mouvement est effectué
     if (pieceDepart.typeMouvement(xPiece, yPiece, xDestination, yDestination) == 13)
@@ -472,16 +490,19 @@ public class Partie{
 
 
   public boolean pat(){
-    for (int i = 0; i < 64; i++) {
-      if (this.plateau[i] != null && this.plateau[i].getCouleur() == this.joueur) {
-        for (int j = 0; j < 64; j++) {
-          if (this.deplacementPossible(i % 8, i / 8, j % 8, j / 8, this.joueur)
-              && !this.enEchecApresMouvemement(i % 8, i / 8, j % 8, j / 8))
-            return false;
+    if (!enEchec()){
+      for (int i = 0; i < 64; i++) {
+        if (this.plateau[i] != null && this.plateau[i].getCouleur() == this.joueur) {
+          for (int j = 0; j < 64; j++) {
+            if (this.deplacementPossible(i % 8, i / 8, j % 8, j / 8, this.joueur)
+                && !this.enEchecApresMouvemement(i % 8, i / 8, j % 8, j / 8))
+                return false;
+          }
         }
       }
+      return true;
     }
-    return true;
+    return false;
   }
 
 
@@ -508,16 +529,16 @@ public class Partie{
 
   public void promotion(Scanner scan, int nJoueur, int position){
     this.clearTerminal();
-    //this.afficherPlateau();
+    this.afficherHistorique();
     System.out.println("Au tour du joueur " + nJoueur + "\n\n");
     System.out.println("En quelle pièce voulez vous promouvoir votre pion : (Entrez \"reine\", \"fou\", \"tour\" ou \"cavalier\")");
     String piece = scan.nextLine().toLowerCase();
 
     while (piece != "reine" || piece != "fou" || piece != "tour" || piece != "cavalier"){
       this.clearTerminal();
-      //this.afficherPlateau();
+      this.afficherHistorique();
       System.out.println("Au tour du joueur " + nJoueur + "\n\n");
-      System.out.println("Saisie incorecte, veuillez reesayer : (Entrez \"reine\", \"fou\", \"tour\" ou \"cavalier\")");
+      System.out.println("Saisie incorrecte, veuillez réesayer : (Entrez \"reine\", \"fou\", \"tour\" ou \"cavalier\")");
       piece = scan.nextLine().toLowerCase();
     }
 
@@ -536,7 +557,7 @@ public class Partie{
     this.plateau[position].effectueUnMouvement();
   }
 
-
+/*
   public void afficherPlateau(){
     for(int i=0; i<8; i++){
       String row = "";
@@ -549,13 +570,7 @@ public class Partie{
       System.out.println(row);
     }
   }
-
-
-
-  public void afficherPlateau2(boolean joueur){
-
-  }
-
+*/
 
 
   public int actionValide(String action){
@@ -615,8 +630,7 @@ public class Partie{
 
       this.clearTerminal();
       this.affichage.refresh(this.plateau, this.joueur);
-      //this.afficherPlateau();
-      //this.afficherHistorique();
+      this.afficherHistorique();
 
 
       int nJoueur;
@@ -633,10 +647,9 @@ public class Partie{
 
       while (typeAction == 0){
         this.clearTerminal();
-        System.out.println("typeAction: " + typeAction + ", action: " + action + ", actionValide: " + actionValide(action) +".\n\n");
-        //this.afficherPlateau();
+        this.afficherHistorique();
         System.out.println("Au tour du joueur " + nJoueur+".\n\n");
-        System.out.println("Action ou mouvement invalide, reesayez:");
+        System.out.println("Action ou mouvement invalide, réesayez:");
         action = scan.nextLine().toLowerCase();
         typeAction = actionValide(action);
       }
@@ -677,7 +690,8 @@ public class Partie{
           this.promotion(scan, nJoueur, promotionPossible);
         }
 
-        this.nbrMouvement ++;
+        if (!joueur)
+          this.nbrMouvement ++;
         this.nextJoueur();
       }
 
@@ -686,7 +700,7 @@ public class Partie{
 
     this.clearTerminal();
     this.affichage.refresh(this.plateau, this.joueur);
-    //this.afficherPlateau();
+    this.afficherHistorique();
 
     if (pat()){
       System.out.println("Pat ! Il y a égalité.\n\n");
@@ -698,7 +712,7 @@ public class Partie{
         nJoueur = 2;
       else
         nJoueur = 1;
-      System.out.println("Echec et Mat ! Le joueur "+nJoueur+" a gagne.\n\n");
+      System.out.println("Echec et Mat ! Le joueur "+nJoueur+" à gagné.\n\n");
     }
 
     System.out.println("Entrez \"menu\" pour revenir au menu");
@@ -706,7 +720,7 @@ public class Partie{
 
     while (!(action.equals("menu") || action.equals("m"))){
       this.clearTerminal();
-      //this.afficherPlateau();
+      this.afficherHistorique();
       if (pat()) {
         System.out.println("Pat ! Il y a égalité.\n\n");
       }
@@ -716,7 +730,7 @@ public class Partie{
           nJoueur = 2;
         else
           nJoueur = 1;
-        System.out.println("Echec et Mat ! Le joueur " + nJoueur + " a gagne.\n\n");
+        System.out.println("Echec et Mat ! Le joueur " + nJoueur + " à gagné.\n\n");
       }
       System.out.println("Entrez \"menu\" pour revenir au menu");
       action = scan.nextLine().toLowerCase();
