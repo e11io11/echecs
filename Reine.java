@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Reine extends Piece{
 
   public Reine(boolean c){
@@ -61,5 +63,12 @@ public class Reine extends Piece{
     }
 
     return 0;
+  }
+
+  public Image getImage(){
+    if (this.couleur)
+      return Toolkit.getDefaultToolkit().getImage("img/WhiteQueen.png");
+    else
+      return Toolkit.getDefaultToolkit().getImage("img/BlackQueen.png");
   }
 }

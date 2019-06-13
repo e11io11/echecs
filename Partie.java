@@ -15,7 +15,8 @@ public class Partie{
     this.joueur = true;
     this.historique = new ArrayList<String>();
     this.nbrMouvement = 0;
-    Plateau p = new Plateau(this.plateau);
+    Plateau p = new Plateau(this.plateau, this.joueur);
+    this.affichage = p;
   }
 
 
@@ -505,16 +506,16 @@ public class Partie{
 
 
 
-  public void promotion(Scanner scan, String os, int nJoueur, int position){
-    this.clearTerminal(os);
-    this.afficherPlateau();
+  public void promotion(Scanner scan, int nJoueur, int position){
+    this.clearTerminal();
+    //this.afficherPlateau();
     System.out.println("Au tour du joueur " + nJoueur + "\n\n");
     System.out.println("En quelle pièce voulez vous promouvoir votre pion : (Entrez \"reine\", \"fou\", \"tour\" ou \"cavalier\")");
     String piece = scan.nextLine().toLowerCase();
 
     while (piece != "reine" || piece != "fou" || piece != "tour" || piece != "cavalier"){
-      this.clearTerminal(os);
-      this.afficherPlateau();
+      this.clearTerminal();
+      //this.afficherPlateau();
       System.out.println("Au tour du joueur " + nJoueur + "\n\n");
       System.out.println("Saisie incorecte, veuillez reesayer : (Entrez \"reine\", \"fou\", \"tour\" ou \"cavalier\")");
       piece = scan.nextLine().toLowerCase();
@@ -589,7 +590,8 @@ public class Partie{
 
 
 
-  public void clearTerminal(String os){
+  public void clearTerminal(){
+    String os = System.getProperty("os.name").toLowerCase();
     if (os.contains("win")){
       try {
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -607,13 +609,13 @@ public class Partie{
 
 
   public void jouer(){
-    String os = System.getProperty("os.name").toLowerCase();
     Scanner scan = new Scanner(System.in);
 
     while (!echecEtMat() && !pat()){
 
-      this.clearTerminal(os);
-      this.afficherPlateau();
+      this.clearTerminal();
+      this.affichage.refresh(this.plateau, this.joueur);
+      //this.afficherPlateau();
       //this.afficherHistorique();
 
 
@@ -630,9 +632,9 @@ public class Partie{
       int typeAction = actionValide(action);
 
       while (typeAction == 0){
-        this.clearTerminal(os);
+        this.clearTerminal();
         System.out.println("typeAction: " + typeAction + ", action: " + action + ", actionValide: " + actionValide(action) +".\n\n");
-        this.afficherPlateau();
+        //this.afficherPlateau();
         System.out.println("Au tour du joueur " + nJoueur+".\n\n");
         System.out.println("Action ou mouvement invalide, reesayez:");
         action = scan.nextLine().toLowerCase();
@@ -640,7 +642,7 @@ public class Partie{
       }
 
       if (typeAction == 1){
-        this.clearTerminal(os);
+        this.clearTerminal();
         System.out.println("work in progress");
       }
 
@@ -672,7 +674,7 @@ public class Partie{
 
         int promotionPossible = this.promotionPossible();
         if (promotionPossible != -1){
-          this.promotion(scan, os, nJoueur, promotionPossible);
+          this.promotion(scan, nJoueur, promotionPossible);
         }
 
         this.nbrMouvement ++;
@@ -682,8 +684,9 @@ public class Partie{
 
     }
 
-    this.clearTerminal(os);
-    this.afficherPlateau();
+    this.clearTerminal();
+    this.affichage.refresh(this.plateau, this.joueur);
+    //this.afficherPlateau();
 
     if (pat()){
       System.out.println("Pat ! Il y a égalité.\n\n");
@@ -702,8 +705,8 @@ public class Partie{
     String action = scan.nextLine().toLowerCase();
 
     while (!(action.equals("menu") || action.equals("m"))){
-      this.clearTerminal(os);
-      this.afficherPlateau();
+      this.clearTerminal();
+      //this.afficherPlateau();
       if (pat()) {
         System.out.println("Pat ! Il y a égalité.\n\n");
       }

@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Cavalier extends Piece{
 
   public Cavalier(boolean c){
@@ -21,5 +23,12 @@ public class Cavalier extends Piece{
       // mouvement qui ne requiert pas de check les pieces sur le chemin
       return 1;
     return 0;
+  }
+
+  public Image getImage(){
+    if (this.couleur)
+      return Toolkit.getDefaultToolkit().getImage("img/WhiteKnight.png");
+    else
+      return Toolkit.getDefaultToolkit().getImage("img/BlackKnight.png");
   }
 }

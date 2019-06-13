@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Roi extends Piece{
 
   public Roi(boolean c){
@@ -25,5 +27,12 @@ public class Roi extends Piece{
         return 14;
     }
     return 0;
+  }
+
+  public Image getImage(){
+    if (this.couleur)
+      return Toolkit.getDefaultToolkit().getImage("img/WhiteKing.png");
+    else
+      return Toolkit.getDefaultToolkit().getImage("img/BlackKing.png");
   }
 }

@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Tour extends Piece{
 
   public Tour(boolean c){
@@ -38,5 +40,12 @@ public class Tour extends Piece{
     }
 
     return 0;
+  }
+
+  public Image getImage(){
+    if (this.couleur)
+      return Toolkit.getDefaultToolkit().getImage("img/WhiteRook.png");
+    else
+      return Toolkit.getDefaultToolkit().getImage("img/BlackRook.png");
   }
 }

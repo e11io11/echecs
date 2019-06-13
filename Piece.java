@@ -37,12 +37,7 @@ public abstract class Piece{
       return 1;
   }
 
-  public void afficher(Graphics g, int x, int y){
-    Graphics2D g2 = (Graphics2D) g;
-
-   Image img1 = Toolkit.getDefaultToolkit().getImage("img/BlackQueen.png");
-   g2.drawImage(img1, x, y, null);
-  }
+  public abstract Image getImage();
 
   public abstract int typeMouvement(int xPiece, int yPiece, int xDestination, int yDestination);
 

@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Fou extends Piece{
 
   public Fou(boolean c){
@@ -37,5 +39,12 @@ public class Fou extends Piece{
     }
 
     return 0;
+  }
+
+  public Image getImage(){
+    if (this.couleur)
+      return Toolkit.getDefaultToolkit().getImage("img/WhiteBishop.png");
+    else
+      return Toolkit.getDefaultToolkit().getImage("img/BlackBishop.png");
   }
 }

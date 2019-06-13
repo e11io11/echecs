@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Pion extends Piece{
 
   public Pion(boolean c){
@@ -26,5 +28,12 @@ public class Pion extends Piece{
     else
       return 0;
 
+  }
+
+  public Image getImage(){
+    if (this.couleur)
+      return Toolkit.getDefaultToolkit().getImage("img/WhitePawn.png");
+    else
+      return Toolkit.getDefaultToolkit().getImage("img/BlackPawn.png");
   }
 }
