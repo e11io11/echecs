@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.io.Serializable;
 
 public class Partie implements Serializable{
@@ -11,7 +10,6 @@ public class Partie implements Serializable{
   private ArrayList<String> historique;
   private int nbrTour;
   private Plateau affichage = new Plateau(this.plateau, this.joueur);
-  private Scanner scan = new Scanner(System.in);
 
 
 
