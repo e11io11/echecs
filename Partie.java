@@ -769,7 +769,7 @@ public class Partie implements Serializable{
         this.clearTerminal();
         this.afficherHistorique();
         System.out.println("Au tour du joueur " + nJoueur + ".\n");
-        System.out.println("Action ou mouvement invalide, veuillez réessayer:");
+        System.out.println("Action ou mouvement invalide, veuillez réessayer: (\"help\" pour  afficher une liste commandes)");
         action = Menu.scan.nextLine().toLowerCase();
         typeAction = typeAction(action);
       }
