@@ -2,18 +2,35 @@ import java.awt.*;
 
 public class Fou extends Piece{
 
-  public Fou(boolean c){
+  private static final long serialVersionUID = 7665747728893489268L;
+
+
+
+
+
+  public Fou(boolean c) {
     super(c);
   }
+
+
+
+
 
   public Fou(Fou f){
     super(f);
   }
 
 
+
+
+
   public String toString(){
     return "4";
   }
+
+
+
+
 
   public int typeMouvement(int xPiece, int yPiece, int xDestination, int yDestination){
     if (xDestination - xPiece == -(yDestination - yPiece)){
@@ -42,10 +59,16 @@ public class Fou extends Piece{
   }
 
 
+
+
+
   public Image getImage(){
     if (this.couleur)
       return Toolkit.getDefaultToolkit().getImage("img/WhiteBishop.png");
     else
       return Toolkit.getDefaultToolkit().getImage("img/BlackBishop.png");
   }
+
+
+  
 }

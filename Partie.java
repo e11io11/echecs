@@ -1,12 +1,20 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class Partie{
+public class Partie implements Serializable{
+
+  private static final long serialVersionUID = -6671243848797034601L;
+
   private Piece[] plateau;
   private boolean joueur;
   private ArrayList<String> historique;
-  private int nbrMouvement;
-  private Plateau affichage;
+  private int nbrTour;
+  private Plateau affichage = new Plateau(this.plateau, this.joueur);
+  private Scanner scan = new Scanner(System.in);
+
+
+
 
 
   public Partie(){
@@ -14,10 +22,11 @@ public class Partie{
     this.initPlateau();
     this.joueur = true;
     this.historique = new ArrayList<String>();
-    this.nbrMouvement = 1;
-    Plateau affichage = new Plateau(this.plateau, this.joueur);
-    this.affichage = affichage;
+    this.nbrTour = 1;
   }
+
+
+
 
 
   public Partie(Partie p){
@@ -42,18 +51,22 @@ public class Partie{
     }
     this.joueur = p.getJoueur();
     this.historique = p.getHistorique();
-    this.nbrMouvement = p.getNbrMouvement();
+    this.nbrTour = p.getnbrTour();
   }
+
+
+
 
 
   public Partie(Piece[] plateau){
     this.plateau = plateau;
     this.joueur = true;
     this.historique = new ArrayList<String>();
-    this.nbrMouvement = 1;
-    Plateau affichage = new Plateau(this.plateau, this.joueur);
-    this.affichage = affichage;
+    this.nbrTour = 1;
   }
+
+
+
 
 
   private void initPlateau(){
@@ -87,9 +100,15 @@ public class Partie{
   }
 
 
+
+
+
   public Piece[] getPlateau(){
     return this.plateau;
   }
+
+
+
 
 
   public boolean getJoueur(){
@@ -97,9 +116,15 @@ public class Partie{
   }
 
 
+
+
+
   public ArrayList<String> getHistorique(){
     return this.historique;
   }
+
+
+
 
 
   public void setJoueur(boolean j){
@@ -107,13 +132,23 @@ public class Partie{
   }
 
 
+
+
+
   public void nextJoueur(){
     this.joueur = !this.joueur;
   }
 
-  public int getNbrMouvement(){
-    return this.nbrMouvement;
+
+
+
+
+  public int getnbrTour(){
+    return this.nbrTour;
   }
+
+
+
 
 
   public boolean deplacementPossible(int xPiece, int yPiece, int xDestination, int yDestination, boolean joueur){
@@ -267,21 +302,33 @@ public class Partie{
     return true;
   }
 
+
+
+
+
   public void ajouterHistorique(int xPiece, int yPiece, int xDestination, int yDestination){
     if (joueur)
-      this.historique.add(Integer.toString(nbrMouvement)+". "+Integer.toString(xPiece+1)+Integer.toString(yPiece+1)+Integer.toString(xDestination+1)+Integer.toString(yDestination+1));
+      this.historique.add(nbrTour + ". " + (xPiece + 1) + (8 - yPiece) + (xDestination + 1) + (8 - yDestination));
     else{
-      String s = this.historique.get(this.historique.size()-1);
-      this.historique.set(this.historique.size()-1, s + " "+Integer.toString(xPiece+1)+Integer.toString(yPiece+1)+Integer.toString(xDestination+1)+Integer.toString(yDestination+1));
+      String s = this.historique.get(this.historique.size() - 1);
+      this.historique.set(this.historique.size()-1, s + " " + (xPiece + 1) + (8 - yPiece) + (xDestination + 1) + (8 - yDestination));
     }
 
   }
 
+
+
+
+
   public void afficherHistorique(){
     for (String s : this.historique)
       System.out.println(s);
-    System.out.println("\n");
+    if (!this.historique.isEmpty())
+      System.out.println();
   }
+
+
+
 
 
   public boolean grandRoquePossible(){
@@ -318,6 +365,8 @@ public class Partie{
     else
       return true;
   }
+
+
 
 
 
@@ -365,6 +414,8 @@ public class Partie{
 
 
 
+
+
   public void grandRoque(){
     int y;
     if (this.joueur) {
@@ -381,6 +432,8 @@ public class Partie{
     this.plateau[2+y*8] = roi;
     this.plateau[3+y*8] = tour;
   }
+
+
 
 
 
@@ -403,10 +456,11 @@ public class Partie{
 
 
 
+
+
   public void deplacerPiece(int xPiece, int yPiece, int xDestination, int yDestination){
 
     Piece pieceDepart = this.plateau[xPiece + 8*yPiece];
-    Piece pieceArrivee = this.plateau[xDestination + 8*yDestination];
 
     //on prend en compte le mouvement
     pieceDepart.effectueUnMouvement();
@@ -426,6 +480,8 @@ public class Partie{
       this.plateau[xDestination + 8*yDestination] = pieceDepart;
     }
   }
+
+
 
 
 
@@ -458,6 +514,8 @@ public class Partie{
 
 
 
+
+
   public boolean enEchecApresMouvemement(int xPiece, int yPiece, int xDestination, int yDestination){
     //on cree une copie de la partie
     Partie copiePartie = new Partie(this);
@@ -468,6 +526,8 @@ public class Partie{
     //on regarde si le move met le joueur en echec
     return copiePartie.enEchec();
   }
+
+
 
 
 
@@ -489,6 +549,8 @@ public class Partie{
 
 
 
+
+
   public boolean pat(){
     if (!enEchec()){
       for (int i = 0; i < 64; i++) {
@@ -507,6 +569,8 @@ public class Partie{
 
 
 
+
+
   public int promotionPossible(){
     if (this.joueur){
       for (int i=0; i<8; i++){
@@ -516,7 +580,7 @@ public class Partie{
     }
 
     else{
-      for (int i=0; i<8; i++){
+      for (int i=56; i<63; i++){
         if (this.plateau[i] != null && !this.plateau[i].getCouleur() && this.plateau[i].getClass() == Pion.class)
           return i;
       }
@@ -527,35 +591,43 @@ public class Partie{
 
 
 
-  public void promotion(Scanner scan, int nJoueur, int position){
-    this.clearTerminal();
-    this.afficherHistorique();
-    System.out.println("Au tour du joueur " + nJoueur + "\n\n");
-    System.out.println("En quelle pièce voulez vous promouvoir votre pion : (Entrez \"reine\", \"fou\", \"tour\" ou \"cavalier\")");
-    String piece = scan.nextLine().toLowerCase();
 
-    while (piece != "reine" || piece != "fou" || piece != "tour" || piece != "cavalier"){
+
+  public void promotion(int nJoueur, int position){
+    this.clearTerminal();
+    this.affichage.refresh(this.plateau, this.joueur);
+    this.afficherHistorique();
+    System.out.println("Au tour du joueur " + nJoueur + ".\n");
+    System.out.println("En quelle pièce voulez vous promouvoir votre pion : (Entrez \'reine\', \'fou\', \'tour\' ou \'cavalier\')");
+    String piece = Menu.scan.nextLine().toLowerCase();
+
+    while (!(piece.equals("reine") || piece.equals("r") || piece.equals("fou") || piece.equals("f") 
+        || piece.equals("tour") || piece.equals("t") || piece.equals("cavalier") || piece.equals("c"))){
       this.clearTerminal();
       this.afficherHistorique();
-      System.out.println("Au tour du joueur " + nJoueur + "\n\n");
-      System.out.println("Saisie incorrecte, veuillez réesayer : (Entrez \"reine\", \"fou\", \"tour\" ou \"cavalier\")");
-      piece = scan.nextLine().toLowerCase();
+      System.out.println("Au tour du joueur " + nJoueur + ".\n");
+      System.out.println("Saisie incorrecte, veuillez réesayer : (Entrez \'reine\', \'fou\', \'tour\' ou \'cavalier\')");
+      piece = Menu.scan.nextLine().toLowerCase();
     }
 
-    if (piece.equals("reine"))
+    if (piece.equals("reine") || piece.equals("r"))
       this.plateau[position] = new Reine(this.joueur);
 
-    else if (piece.equals("fou"))
+    else if (piece.equals("fou") || piece.equals("f"))
       this.plateau[position] = new Fou(this.joueur);
 
-    else if (piece.equals("tour"))
+    else if (piece.equals("tour") || piece.equals("t"))
       this.plateau[position] = new Tour(this.joueur);
 
-    else
+    else if (piece.equals("cavalier") || piece.equals("c"))
       this.plateau[position] = new Cavalier(this.joueur);
 
     this.plateau[position].effectueUnMouvement();
   }
+
+
+
+
 
 /*
   public void afficherPlateau(){
@@ -573,7 +645,10 @@ public class Partie{
 */
 
 
-  public int actionValide(String action){
+
+
+
+  public int typeAction(String action){
     if (action.equals("help") || action.equals("h"))
       return 1;
 
@@ -605,6 +680,8 @@ public class Partie{
 
 
 
+
+
   public void clearTerminal(){
     String os = System.getProperty("os.name").toLowerCase();
     if (os.contains("win")){
@@ -623,9 +700,54 @@ public class Partie{
 
 
 
-  public void jouer(){
-    Scanner scan = new Scanner(System.in);
 
+
+  public void closeAffichage(){
+    this.affichage.setVisible(false);
+    this.affichage.dispose();
+  }
+
+
+
+
+
+  public void closeScanner(){
+    Menu.scan.close();
+  }
+
+
+
+
+  public void help(){
+    System.out.println("Liste des commandes:\n");
+    System.out.println("\"help\" pour obtenir la liste des commandes,");
+    System.out.println("\"menu\" pour accéder au menu du jeu,");
+    System.out.println("\"abandonner\" pour abandonner la partie,");
+    System.out.println("Un mouvement peut être effectué sous la forme \"[départ] [arrivée]\" (ex: \"b1 c3\"),");
+    System.out.println("\"grand roque\" pour effectuer le grand roque,");
+    System.out.println("\"petit roque\" pour effectuer le petit roque.");
+    System.out.println("Toutes les commandes peuvent être écrites de manière raccourcie (ex: \"m\" au lieu de \"menu\").");
+    System.out.println("\nEntrez \"quitter\" pour revenir quitter cette page et revenir au jeu:");
+    String action = Menu.scan.nextLine().toLowerCase();
+    while (!(action.equals("quitter") || action.equals("q"))){
+      System.out.println("Liste des commandes:\n");
+      System.out.println("\"help\" pour obtenir la liste des commandes,");
+      System.out.println("\"menu\" pour accéder au menu du jeu,");
+      System.out.println("\"abandonner\" pour abandonner la partie,");
+      System.out.println("Un mouvement peut être effectué sous la forme \"[départ] [arrivée]\" (ex: \"b1 c3\"),");
+      System.out.println("\"grand roque\" pour effectuer le grand roque,");
+      System.out.println("\"petit roque\" pour effectuer le petit roque.");
+      System.out.println("Toutes les commandes peuvent être écrites de manière raccourcie (ex: \"m\" au lieu de \"menu\").");
+      System.out.println("\nEntrez \"quitter\" pour revenir quitter cette page et revenir au jeu:");
+      action = Menu.scan.nextLine().toLowerCase();
+    }
+  }
+
+
+
+
+
+  public boolean jouer(){
     while (!echecEtMat() && !pat()){
 
       this.clearTerminal();
@@ -639,36 +761,36 @@ public class Partie{
       else
         nJoueur = 2;
 
-      System.out.println("Au tour du joueur "+nJoueur+".\n\n");
-      System.out.println("Effectuez une action:");
+      System.out.println("Au tour du joueur " + nJoueur + ".\n");
+      System.out.println("Veuillez effectuer une action:");
 
-      String action = scan.nextLine().toLowerCase();
-      int typeAction = actionValide(action);
+      String action = Menu.scan.nextLine().toLowerCase();
+      int typeAction = typeAction(action);
 
       while (typeAction == 0){
         this.clearTerminal();
         this.afficherHistorique();
-        System.out.println("Au tour du joueur " + nJoueur+".\n\n");
-        System.out.println("Action ou mouvement invalide, réesayez:");
-        action = scan.nextLine().toLowerCase();
-        typeAction = actionValide(action);
+        System.out.println("Au tour du joueur " + nJoueur + ".\n");
+        System.out.println("Action ou mouvement invalide, veuillez réessayer:");
+        action = Menu.scan.nextLine().toLowerCase();
+        typeAction = typeAction(action);
       }
 
       if (typeAction == 1){
         this.clearTerminal();
-        System.out.println("work in progress");
+        this.help();
       }
 
-      if (typeAction == 2){
-        return;
+      else if (typeAction == 2){
+        this.affichage.setVisible(false);
+        return false;
       }
 
-      if (typeAction == 3){
-        //THINGS TO ADD HERE
-        return;
+      else if (typeAction == 3){
+        return true;
       }
 
-      if (typeAction == 4 || typeAction == 5 || typeAction == 6){
+      else if (typeAction == 4 || typeAction == 5 || typeAction == 6){
         if (typeAction == 4){
           int xPiece = action.charAt(0)-97;
           int yPiece = 7-(action.charAt(1)-49);
@@ -679,23 +801,29 @@ public class Partie{
 
         else if (typeAction == 5){
           this.grandRoque();
+          if (joueur)
+            ajouterHistorique(4, 1, 2, 1);
+          else
+            ajouterHistorique(4, 7, 2, 7);
         }
 
         else{
           this.petitRoque();
+          if (joueur)
+            ajouterHistorique(4, 1, 6, 1);
+          else
+            ajouterHistorique(4, 7, 6, 7);
         }
 
         int promotionPossible = this.promotionPossible();
         if (promotionPossible != -1){
-          this.promotion(scan, nJoueur, promotionPossible);
+          this.promotion(nJoueur, promotionPossible);
         }
 
         if (!joueur)
-          this.nbrMouvement ++;
+          this.nbrTour ++;
         this.nextJoueur();
       }
-
-
     }
 
     this.clearTerminal();
@@ -715,8 +843,8 @@ public class Partie{
       System.out.println("Echec et Mat ! Le joueur "+nJoueur+" à gagné.\n\n");
     }
 
-    System.out.println("Entrez \"menu\" pour revenir au menu");
-    String action = scan.nextLine().toLowerCase();
+    System.out.println("Entrez \'menu\' pour revenir au menu");
+    String action = Menu.scan.nextLine().toLowerCase();
 
     while (!(action.equals("menu") || action.equals("m"))){
       this.clearTerminal();
@@ -732,11 +860,14 @@ public class Partie{
           nJoueur = 1;
         System.out.println("Echec et Mat ! Le joueur " + nJoueur + " à gagné.\n\n");
       }
-      System.out.println("Entrez \"menu\" pour revenir au menu");
-      action = scan.nextLine().toLowerCase();
+
+      System.out.println("Entrez \'menu\' pour revenir au menu:");
+      action = Menu.scan.nextLine().toLowerCase();
     }
 
+    return true;
   }
+
 
 
 }

@@ -1,14 +1,21 @@
 import java.awt.*;
 import javax.swing.*;
-import java.util.*;
 
 
 public class Plateau extends JFrame {
+
+  private static final long serialVersionUID = 1890713488426328269L;
+
+  public static String[] lettre = { "A", "B", "C", "D", "E", "F", "G", "H" };
+  public static String[] chiffre = { "1", "2", "3", "4", "5", "6", "7", "8" };
+
   public DrawPanel drawPanel;
   public Piece[] plateau;
   public boolean joueur;
-  public static String[] lettre = {"A","B","C","D","E","F","G","H"};
-  public static String[] chiffre = {"1","2","3","4","5","6","7","8"};
+
+
+
+
 
   public Plateau(Piece[] plateau, boolean joueur){
     super();
@@ -20,30 +27,53 @@ public class Plateau extends JFrame {
     this.setLocationRelativeTo(null);
     this.setResizable(false);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    this.setVisible(true);
+    this.setAlwaysOnTop(true);
     this.drawPanel = new DrawPanel();
     this.add(drawPanel, BorderLayout.CENTER);
   }
+
+
+
+
 
   public void refresh(Piece[] plateau, boolean joueur){
     this.joueur = joueur;
     this.plateau = plateau;
     drawPanel.repaint();
+    this.setVisible(true);
   }
 
 
+
+
+
   class DrawPanel extends JPanel {
-    public DrawPanel(){
+
+    private static final long serialVersionUID = 5900033470581859604L;
+
+
+
+
+
+    public DrawPanel() {
       this.setOpaque(true);
 
       this.setBackground(Color.GRAY);
     }
+
+
+
+
 
     public void paintComponent(Graphics g){
       super.paintComponent(g);
       this.drawPlateau(g);
       this.drawPiece(g);
     }
+
+
+
+
 
     public void drawPlateau(Graphics g){
       g.setColor(Color.WHITE);
@@ -98,6 +128,10 @@ public class Plateau extends JFrame {
       }
     }
 
+
+
+    
+
     public void drawPiece(Graphics g){
       for (int i=0; i<8; i++){
         for (int j=0; j<8; j++){
@@ -106,10 +140,12 @@ public class Plateau extends JFrame {
               ((Graphics2D)g).drawImage(plateau[i*8+j].getImage(), 40+j*80, 40+i*80, this);
             else
               ((Graphics2D)g).drawImage(plateau[i*8+j].getImage(), 600-j*80, 600-i*80, this);
-            }
           }
         }
       }
+    }
+
+    
 
 
   }

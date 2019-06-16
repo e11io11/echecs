@@ -2,17 +2,36 @@ import java.awt.*;
 
 public class Roi extends Piece{
 
-  public Roi(boolean c){
+  private static final long serialVersionUID = -4430023746076062020L;
+
+
+
+
+
+  public Roi(boolean c) {
     super(c);
   }
+
+
+
+
 
   public Roi(Roi r){
     super(r);
   }
 
+
+
+
+
   public String toString(){
     return "6";
   }
+
+
+
+
+
 
   public int typeMouvement(int xPiece, int yPiece, int xDestination, int yDestination){
     if ((xPiece - xDestination == 1 || xPiece - xDestination == 0 || xPiece - xDestination == -1) && (yPiece - yDestination == 1 || yPiece - yDestination == 0 || yPiece - yDestination == -1))
@@ -29,10 +48,17 @@ public class Roi extends Piece{
     return 0;
   }
 
+
+
+
+
   public Image getImage(){
     if (this.couleur)
       return Toolkit.getDefaultToolkit().getImage("img/WhiteKing.png");
     else
       return Toolkit.getDefaultToolkit().getImage("img/BlackKing.png");
   }
+
+
+  
 }

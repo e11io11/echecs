@@ -2,13 +2,26 @@ import java.awt.*;
 
 public class Cavalier extends Piece{
 
-  public Cavalier(boolean c){
+  private static final long serialVersionUID = -480779306599009373L;
+
+
+
+
+
+  public Cavalier(boolean c) {
     super(c);
   }
+
+
+
+
 
   public Cavalier(Cavalier c){
     super(c);
   }
+
+
+
 
 
   public String toString(){
@@ -25,10 +38,18 @@ public class Cavalier extends Piece{
     return 0;
   }
 
+
+
+
+
+
   public Image getImage(){
     if (this.couleur)
       return Toolkit.getDefaultToolkit().getImage("img/WhiteKnight.png");
     else
       return Toolkit.getDefaultToolkit().getImage("img/BlackKnight.png");
   }
+
+
+
 }

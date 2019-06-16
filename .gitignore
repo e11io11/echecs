@@ -1,12 +1,4 @@
-Reine.class
-Fou.class
-Partie.class
-Piece.class
-Pion.class
-Tour.class
-Roi.class
-Cavalier.class
-Test.java
-Test.class
+*.class
 /UML
 /.vscode
+save.txt

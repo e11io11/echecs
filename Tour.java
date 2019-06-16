@@ -2,17 +2,35 @@ import java.awt.*;
 
 public class Tour extends Piece{
 
-  public Tour(boolean c){
+  private static final long serialVersionUID = 8017903508489615244L;
+
+
+
+
+
+  public Tour(boolean c) {
     super(c);
   }
+
+
+
+
 
   public Tour(Tour t){
     super(t);
   }
 
+
+
+
+
   public String toString(){
     return "2";
   }
+
+
+
+
 
   public int typeMouvement(int xPiece, int yPiece, int xDestination, int yDestination){
     if (xDestination == xPiece){
@@ -42,10 +60,16 @@ public class Tour extends Piece{
     return 0;
   }
 
+
+
+
+
   public Image getImage(){
     if (this.couleur)
       return Toolkit.getDefaultToolkit().getImage("img/WhiteRook.png");
     else
       return Toolkit.getDefaultToolkit().getImage("img/BlackRook.png");
   }
+
+  
 }

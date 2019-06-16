@@ -2,17 +2,34 @@ import java.awt.*;
 
 public class Pion extends Piece{
 
-  public Pion(boolean c){
+  private static final long serialVersionUID = 5661757113389381683L;
+
+
+
+
+
+  public Pion(boolean c) {
     super(c);
   }
+
+
+
+
 
   public Pion(Pion p){
     super(p);
   }
 
+
+
+
+
   public String toString(){
     return "1";
   }
+
+
+
 
   public int typeMouvement(int xPiece, int yPiece, int xDestination, int yDestination){
     int avant = getAvant();
@@ -30,10 +47,16 @@ public class Pion extends Piece{
 
   }
 
+
+
+
+
   public Image getImage(){
     if (this.couleur)
       return Toolkit.getDefaultToolkit().getImage("img/WhitePawn.png");
     else
       return Toolkit.getDefaultToolkit().getImage("img/BlackPawn.png");
   }
+
+
 }

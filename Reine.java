@@ -2,17 +2,36 @@ import java.awt.*;
 
 public class Reine extends Piece{
 
-  public Reine(boolean c){
+  private static final long serialVersionUID = 1125901331863210895L;
+
+
+
+
+
+  public Reine(boolean c) {
     super(c);
   }
+
+
+
+
 
   public Reine(Reine r){
     super(r);
   }
 
+
+
+
+
   public String toString(){
     return "5";
   }
+
+
+
+
+
 
   public int typeMouvement(int xPiece, int yPiece, int xDestination, int yDestination){
     if (xDestination == xPiece){
@@ -65,10 +84,17 @@ public class Reine extends Piece{
     return 0;
   }
 
+
+
+
+
+
   public Image getImage(){
     if (this.couleur)
       return Toolkit.getDefaultToolkit().getImage("img/WhiteQueen.png");
     else
       return Toolkit.getDefaultToolkit().getImage("img/BlackQueen.png");
   }
+
+  
 }
