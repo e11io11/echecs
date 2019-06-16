@@ -598,7 +598,7 @@ public class Partie implements Serializable{
     this.affichage.refresh(this.plateau, this.joueur);
     this.afficherHistorique();
     System.out.println("Au tour du joueur " + nJoueur + ".\n");
-    System.out.println("En quelle pièce voulez vous promouvoir votre pion : (Entrez \'reine\', \'fou\', \'tour\' ou \'cavalier\')");
+    System.out.println("En quelle pièce voulez vous promouvoir votre pion : (Entrez \"reine\", \"fou\", \"tour\" ou \"cavalier\")");
     String piece = Menu.scan.nextLine().toLowerCase();
 
     while (!(piece.equals("reine") || piece.equals("r") || piece.equals("fou") || piece.equals("f") 
@@ -606,7 +606,7 @@ public class Partie implements Serializable{
       this.clearTerminal();
       this.afficherHistorique();
       System.out.println("Au tour du joueur " + nJoueur + ".\n");
-      System.out.println("Saisie incorrecte, veuillez réesayer : (Entrez \'reine\', \'fou\', \'tour\' ou \'cavalier\')");
+      System.out.println("Saisie incorrecte, veuillez réesayer : (Entrez \"reine\", \"fou\", \"tour\" ou \"cavalier\")");
       piece = Menu.scan.nextLine().toLowerCase();
     }
 
@@ -843,7 +843,7 @@ public class Partie implements Serializable{
       System.out.println("Echec et Mat ! Le joueur "+nJoueur+" à gagné.\n\n");
     }
 
-    System.out.println("Entrez \'menu\' pour revenir au menu");
+    System.out.println("Entrez \"menu\" pour revenir au menu");
     String action = Menu.scan.nextLine().toLowerCase();
 
     while (!(action.equals("menu") || action.equals("m"))){
@@ -861,7 +861,7 @@ public class Partie implements Serializable{
         System.out.println("Echec et Mat ! Le joueur " + nJoueur + " à gagné.\n\n");
       }
 
-      System.out.println("Entrez \'menu\' pour revenir au menu:");
+      System.out.println("Entrez \"menu\" pour revenir au menu:");
       action = Menu.scan.nextLine().toLowerCase();
     }
 

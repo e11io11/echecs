@@ -111,11 +111,11 @@ public class Menu {
 
   public void afficher() {
     System.out.println("Menu :\n");
-    System.out.println("\'jouer\' pour commencer une nouvelle partie,");
-    System.out.println("\'reprendre\' pour reprendre un partie en cours,");
-    System.out.println("\'sauvegarder\' pour sauvegarder une partie en cours,");
-    System.out.println("\'charger\' pour charger une partie sauvegardée,");
-    System.out.println("\'quitter\' pour quitter le jeu.");
+    System.out.println("\"jouer\" pour commencer une nouvelle partie,");
+    System.out.println("\"reprendre\" pour reprendre un partie en cours,");
+    System.out.println("\"sauvegarder\" pour sauvegarder une partie en cours,");
+    System.out.println("\"charger\" pour charger une partie sauvegardée,");
+    System.out.println("\"quitter\" pour quitter le jeu.");
   }
 
 
